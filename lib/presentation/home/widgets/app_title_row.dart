@@ -15,7 +15,7 @@ class AppTileRow extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyles.defaultStyle.bold.mediumText,
+            style: TextStyles.defaultStyle.bold.largeText,
           ),
           Text('See all', style: TextStyles.defaultStyle.smallText.underLine),
         ],
