@@ -8,6 +8,7 @@ class GridCategoryFood extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       padding: const EdgeInsets.all(20),
       crossAxisSpacing: 10,
