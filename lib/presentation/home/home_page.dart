@@ -4,6 +4,7 @@ import 'package:ihun_food_app/core/app_asset.dart';
 import 'package:ihun_food_app/presentation/home/widgets/grid_category_food.dart';
 
 import 'widgets/app_title_row.dart';
+import 'widgets/food_view_horizonal.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -43,46 +44,20 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Image.asset(AppAsset.foodBanner),
-            ),
-            const GridCategoryFood(),
-            const AppTileRow(title: 'Featured Today'),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Image.asset(AppAsset.foodBanner),
+              ),
+              const GridCategoryFood(),
+              const AppTileRow(title: 'Featured Today'),
+              const FoodViewHorizonal(),
+              const SizedBox(height: 200)
+            ],
+          ),
         ));
   }
 }
-
-// Widget _bodyFood() {
-//   return BlocBuilder<ProductsBloc, ProductsState>(
-//     builder: (context, state) {
-//       if (state is ProductsLoading) {
-//         return const Center(
-//           child: CircularProgressIndicator.adaptive(),
-//         );
-//       } else if (state is ProductsLoaded) {
-//         return ListView.builder(
-//           itemCount: state.products.length,
-//           itemBuilder: (context, index) {
-//             final product = state.products[index];
-//             return ListTile(
-//               title: Text(product.name),
-//               subtitle: Text(product.description),
-//             );
-//           },
-//         );
-//       } else if (state is ProductsError) {
-//         return Center(
-//           child: Text(state.message),
-//         );
-//       } else {
-//         return const Center(
-//           child: Text('Unknown state'),
-//         );
-//       }
-//     },
-//   );
-// }
