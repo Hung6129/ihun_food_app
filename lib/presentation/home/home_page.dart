@@ -1,6 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:ihun_food_app/core/app_asset.dart';
+import 'package:ihun_food_app/presentation/home/widgets/food_banner_carousel.dart';
 import 'package:ihun_food_app/presentation/home/widgets/grid_category_food.dart';
 
 import 'widgets/app_title_row.dart';
@@ -47,15 +50,11 @@ class _HomePageState extends State<HomePage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Image.asset(AppAsset.foodBanner),
-              ),
+              const FoodBannerCarousel(),
               const GridCategoryFood(),
               const AppTileRow(title: 'Featured Today'),
               const FoodViewHorizonal(),
-              const SizedBox(height: 200)
+              SizedBox(height: 100.h)
             ],
           ),
         ));
