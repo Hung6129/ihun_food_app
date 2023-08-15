@@ -13,6 +13,10 @@ final class ProductsLoaded extends ProductsState {
   ProductsLoaded(this.products);
 }
 
+final class ProductsLoadedEmtyList extends ProductsState {
+  final List<ProductModel> products = [];
+}
+
 final class ProductsError extends ProductsState {
   final String message;
 

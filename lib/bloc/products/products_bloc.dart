@@ -16,6 +16,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         emit(ProductsLoading());
         try {
           final products = await ProductsRepoImpl().getProducts();
+          if (products.isEmpty) {
+            emit(ProductsLoadedEmtyList());
+          } else {
+            emit(ProductsLoaded(products));
+          }
           emit(ProductsLoaded(products));
         } catch (e) {
           emit(ProductsError(e.toString()));
