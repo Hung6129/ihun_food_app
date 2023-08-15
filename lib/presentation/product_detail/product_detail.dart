@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ihun_food_app/config/styles/text_styles.dart';
+import 'package:ihun_food_app/core/widgets/app_icon_btn.dart';
+import 'package:ihun_food_app/core/widgets/app_icontext_badge.dart';
 import 'package:ihun_food_app/models/product_model.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -14,115 +18,109 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          expandedHeight: 300,
-          pinned: true,
-          flexibleSpace: FlexibleSpaceBar(
-            background: Image.network(
-              widget.product.image[0],
-              fit: BoxFit.cover,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 250.h,
+            pinned: true,
+            leading: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppIconButton(
+                icon: Icons.close,
+                onPressed: () => Navigator.pop(context),
+                bgColor: Colors.white,
+                iconColor: Colors.black,
+              ),
             ),
-          ),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
+            actions: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Text(
-                          widget.product.name,
-                          style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                widget.product.rating.toString(),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow[600],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      widget.product.description,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Rp. ${widget.product.price}',
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Ingredients',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      widget.product.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Nutrition',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      widget.product.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+                padding: const EdgeInsets.all(8.0),
+                child: AppIconButton(
+                  icon: Icons.favorite,
+                  onPressed: () => Navigator.pop(context),
+                  bgColor: Colors.white,
+                  iconColor: Colors.red,
                 ),
               ),
             ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network(
+                widget.product.image[0],
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Text(widget.product.name,
+                          style: TextStyles.defaultStyle.bold.largeText),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          AppTextBadge(
+                            icon: Icons.star,
+                            label: widget.product.rating.toString(),
+                            color: Colors.yellow[600]!,
+                          ),
+                          AppTextBadge(
+                            icon: Icons.favorite,
+                            label: widget.product.loved.toString(),
+                            color: Colors.red[600]!,
+                          ),
+                        ],
+                      ),
+                      Text(widget.product.description,
+                          style: TextStyles.defaultStyle),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 80.h,
+        child: Column(
+          children: [
+            const Divider(
+              thickness: 1,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.product.price.toString(),
+                    style: TextStyles.defaultStyle.bold.largeText,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                    ),
+                    child: Text(
+                      'Add to Cart',
+                      style: TextStyles.defaultStyle.bold.largeText.whiteText,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
-    ));
+      ),
+    );
   }
 }
