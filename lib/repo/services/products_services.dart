@@ -1,4 +1,5 @@
-import '../../models/product_model.dart';
+import 'package:ihun_food_app/repo/models/product_model.dart';
+
 import 'products_repo.dart';
 
 abstract class ProductsServices {

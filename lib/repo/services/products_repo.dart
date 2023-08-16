@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:ihun_food_app/core/app_urls.dart';
-import 'package:ihun_food_app/models/product_model.dart';
+
+import '../models/product_model.dart';
 
 class ProductsRepo {
   Dio dio = Dio();

@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:meta/meta.dart';
-import '../../models/product_model.dart';
+
+import '../../repo/models/product_model.dart';
 import '../../repo/services/products_services.dart';
 
 part 'products_event.dart';
