@@ -31,7 +31,8 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: screens[_selectedTab],
       extendBody: true,
-      bottomNavigationBar: SafeArea(
+      bottomNavigationBar: 
+      SafeArea(
         child: Container(
           decoration: BoxDecoration(
             color: Colors.black,

@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ihun_food_app/config/styles/text_styles.dart';
 import 'package:ihun_food_app/core/widgets/app_icon_btn.dart';
 import 'package:ihun_food_app/core/widgets/app_icontext_badge.dart';
-import 'package:ihun_food_app/models/product_model.dart';
+
+import '../../repo/models/product_model.dart';
 
 class ProductDetail extends StatefulWidget {
   const ProductDetail({super.key, required this.product});

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ihun_food_app/presentation/authenticate/signin/sign_in_page.dart';
 import 'package:ihun_food_app/presentation/main_page.dart';
 
 import 'bloc/products/products_bloc.dart';
@@ -29,12 +30,8 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'iHun Food App',
           debugShowCheckedModeBanner: false,
-          // darkTheme: ThemeData(
-          //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          //   useMaterial3: true,
-          // ),
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
