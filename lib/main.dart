@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ihun_food_app/presentation/authenticate/signin/sign_in_page.dart';
-import 'package:ihun_food_app/presentation/main_page.dart';
+import 'package:ihun_food_app/src/core/services/injection_container.dart';
 
-import 'bloc/products/products_bloc.dart';
+import 'src/features/products/views/bloc/products_bloc.dart';
+import 'src/features/products/views/main_page.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await init();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (value) => runApp(
       const MyApp(),
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MultiBlocProvider(
         providers: [
           BlocProvider<ProductsBloc>(
-            create: (context) => ProductsBloc()..add(GetProducts()),
+            create: (context) => sl<ProductsBloc>()..add(const GetProducts()),
           ),
         ],
         child: MaterialApp(
