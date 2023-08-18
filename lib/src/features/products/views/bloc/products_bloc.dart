@@ -4,7 +4,6 @@ import 'package:ihun_food_app/src/features/products/domain/entities/product.dart
 
 import 'package:meta/meta.dart';
 
-import '../../data/models/product_model.dart';
 import '../../domain/usecases/get_products_usecase.dart';
 
 part 'products_event.dart';
@@ -34,9 +33,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       final products = await _getProductsUsecase();
       products.fold(
         (l) => emit(ProductsError(message: l.errorMessage)),
-        (r) => r.isEmpty
-            ? emit(ProductsLoadedEmtyList())
-            : emit(ProductsLoaded(products: r)),
+        (r) {
+          r.isEmpty
+              ? emit(ProductsLoadedEmtyList())
+              : emit(ProductsLoaded(products: r));
+        },
       );
     } catch (e) {
       emit(ProductsError(message: e.toString()));
