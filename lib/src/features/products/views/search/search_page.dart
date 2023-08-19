@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ihun_food_app/src/core/widgets/app_appbar.dart';
+import 'package:ihun_food_app/src/core/widgets/app_cached_image_widget.dart';
 
 import 'package:ihun_food_app/src/features/products/domain/entities/product.dart';
 
 import '../../../../config/styles/text_styles.dart';
+import '../../../../core/widgets/app_icontext_badge.dart';
 import '../bloc/products_bloc.dart';
 
 class SearchPage extends StatefulWidget {
@@ -33,35 +36,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading:
-            //Todo: Change to CircleAvatar and onTap function to navigate to the page [ProfilePage]
-            IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.black,
-          ),
-        ),
-        title: const Text(
-          'Search',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.notifications,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
+      appBar: buildPreferredSizeWidget('Search'),
       body: Column(
         children: [
           Padding(
@@ -75,7 +50,12 @@ class _SearchPageState extends State<SearchPage> {
                     Icons.search,
                     color: Colors.black,
                   ),
-                  suffixIcon: _ClearButton(controller: _controller),
+                  suffixIcon: _ClearButton(onPressed: () {
+                    _controller.text = '';
+                    _productsBloc.add(
+                      const SearchingProduct(query: ''),
+                    );
+                  }),
                   labelText: 'Find your favorite food',
                   border: const OutlineInputBorder(),
                   focusColor: Colors.black,
@@ -89,15 +69,6 @@ class _SearchPageState extends State<SearchPage> {
                     SearchingProduct(query: text),
                   );
                 },
-                onEditingComplete: () {
-                  setState(() {});
-                },
-                onTap: () {
-                  setState(() {});
-                },
-                onSubmitted: (value) {
-                  value = _controller.text;
-                },
               ),
             ),
           ),
@@ -108,19 +79,22 @@ class _SearchPageState extends State<SearchPage> {
           ),
           BlocBuilder<ProductsBloc, ProductsState>(
             builder: (context, state) {
-              if (state is SearchProductLoading) {
-                return const CircularProgressIndicator.adaptive();
-              } else if (state is SearchProductSuccess) {
-                return state.products.isEmpty
-                    ? const Text('No Results')
-                    : Expanded(child: _SearchResults(items: state.products));
-              } else if (state is SearchProductEmptyList) {
-                return const Text('Please enter a term to begin');
-              } else if (state is SearchProductError) {
-                return Text(state.message);
-              } else {
-                return const Text('Please enter a term to beginnn');
-              }
+              return switch (state) {
+                ProductsLoaded() =>
+                  const Text('Please enter a term to begin search'),
+                ProductsError() =>
+                  const Text('Something went wrong, check your connection'),
+                SearchProductLoading() =>
+                  const CircularProgressIndicator.adaptive(),
+                SearchProductSuccess() => state.products.isEmpty
+                    ? const Text('No Results Found for your query')
+                    : Expanded(child: _SearchResults(items: state.products)),
+                SearchProductEmptyList() => const Text('No Results'),
+                SearchProductError() => Text(state.message),
+                _ => const Text(
+                    'Something went wrong, check your connection',
+                  ),
+              };
             },
           )
         ],
@@ -130,9 +104,9 @@ class _SearchPageState extends State<SearchPage> {
 }
 
 class _ClearButton extends StatelessWidget {
-  const _ClearButton({required this.controller});
+  const _ClearButton({required this.onPressed});
 
-  final TextEditingController controller;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) => IconButton(
@@ -140,7 +114,7 @@ class _ClearButton extends StatelessWidget {
           Icons.clear,
           color: Colors.black,
         ),
-        onPressed: () => controller.clear(),
+        onPressed: onPressed,
       );
 }
 
@@ -168,9 +142,35 @@ class _SearchResultItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      leading: Image.network(item.image[0]),
-      title: Text(item.name),
-    );
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        leading: AppCachedNetworkImage(
+          imageUrl: item.image[0],
+          width: 80.w,
+          height: 80.h,
+        ),
+        title: Text(
+          item.name,
+          style: TextStyles.defaultStyle.bold.mediumText,
+        ),
+        subtitle: Row(
+          children: [
+            AppTextBadge(
+              label: item.rating.toString(),
+              icon: Icons.star,
+              color: Colors.yellow,
+            ),
+            const SizedBox(width: 5),
+            AppTextBadge(
+              label: item.loved.toString(),
+              icon: Icons.favorite,
+              color: Colors.red,
+            ),
+          ],
+        ),
+        trailing: Text(
+          item.price,
+          style: TextStyles.defaultStyle.bold.mediumText,
+        ));
   }
 }

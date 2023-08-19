@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ihun_food_app/src/core/widgets/app_appbar.dart';
 
 import 'widgets/app_title_row.dart';
 import 'widgets/food_banner_carousel.dart';
@@ -17,35 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading:
-              //Todo: Change to CircleAvatar and onTap function to navigate to the page [ProfilePage]
-              IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-          ),
-          title: const Text(
-            'Home',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.notifications,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
+        appBar: buildPreferredSizeWidget('Home'),
         body: SingleChildScrollView(
           child: Column(
             children: [
