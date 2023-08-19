@@ -5,6 +5,7 @@ import 'package:ihun_food_app/src/features/products/domain/entities/product.dart
 import 'package:meta/meta.dart';
 
 import '../../domain/usecases/get_products_usecase.dart';
+import '../../domain/usecases/search_product_usecase.dart';
 
 part 'products_event.dart';
 part 'products_state.dart';
@@ -12,14 +13,16 @@ part 'products_state.dart';
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc({
     required GetProductsUsecase getProductsUsecase,
+    required SearchProductUseCase searchProductUseCase,
   })  : _getProductsUsecase = getProductsUsecase,
-        super(
-          const ProductsInitial(),
-        ) {
+        _searchProductUseCase = searchProductUseCase,
+        super(ProductsLoadedEmtyList()) {
     on<GetProducts>(onGetProducts);
+    on<SearchingProduct>(onSearchingProduct);
   }
 
   final GetProductsUsecase _getProductsUsecase;
+  final SearchProductUseCase _searchProductUseCase;
 
   /// This method is called when the [GetProducts] event is added to the bloc.
   /// This event is added to the bloc when the products are requested.
@@ -28,7 +31,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   /// If the products are not successfully retrieved, the bloc will emit a [ProductsError] state.
 
   void onGetProducts(ProductsEvent event, Emitter<ProductsState> emit) async {
-    emit(const ProductsLoading());
+    emit(ProductsLoading());
     try {
       final products = await _getProductsUsecase();
       products.fold(
@@ -41,6 +44,29 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       );
     } catch (e) {
       emit(ProductsError(message: e.toString()));
+    }
+  }
+
+  void onSearchingProduct(
+      ProductsEvent event, Emitter<ProductsState> emit) async {
+    event as SearchingProduct;
+    final text = event.query;
+    if (text.isEmpty) return emit(SearchProductEmptyList());
+    emit(SearchProductLoading());
+    try {
+      final listResults = await _searchProductUseCase(text);
+      listResults.fold(
+        (l) => emit(SearchProductError(message: l.errorMessage)),
+        (r) {
+          r.isEmpty
+              ? emit(SearchProductEmptyList())
+              : emit(SearchProductSuccess(products: r));
+        },
+      );
+    } catch (e) {
+      emit(state is SearchProductError
+          ? SearchProductError(message: e.toString())
+          : const SearchProductError(message: 'Something went wrong'));
     }
   }
 }
