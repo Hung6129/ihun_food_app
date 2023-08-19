@@ -29,6 +29,12 @@ class MyApp extends StatelessWidget {
           BlocProvider<ProductsBloc>(
             create: (context) => sl<ProductsBloc>()..add(const GetProducts()),
           ),
+          BlocProvider<ProductsBloc>(
+            create: (context) => sl<ProductsBloc>()
+              ..add(
+                const SearchingProduct(query: ''),
+              ),
+          ),
         ],
         child: MaterialApp(
           title: 'iHun Food App',
