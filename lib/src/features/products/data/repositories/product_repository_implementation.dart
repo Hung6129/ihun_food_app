@@ -31,4 +31,19 @@ class ProductRepositoryImplementation implements ProductRepository {
       );
     }
   }
+
+  @override
+  FutureEither<List<ProductModel>> searchProduct(String query) async {
+    try {
+      final products = await _remoteDataSource.searchProduct(query);
+      return Right(products);
+    } on DioException catch (e, str) {
+      return Left(
+        ServerFailure(
+          e.toString(),
+          str,
+        ),
+      );
+    }
+  }
 }

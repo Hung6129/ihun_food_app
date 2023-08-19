@@ -10,4 +10,6 @@ abstract class ProductRepository {
   const ProductRepository();
 
   FutureEither<List<ProductEntity>> getProducts();
+
+  FutureEither<List<ProductEntity>> searchProduct(String query);
 }

@@ -13,6 +13,7 @@ import '../../../../core/errors/failure.dart';
 
 abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> getProducts();
+  Future<List<ProductModel>> searchProduct(String query);
 }
 
 class ProductRemoteDataSourceImplementation implements ProductRemoteDataSource {
@@ -24,6 +25,25 @@ class ProductRemoteDataSourceImplementation implements ProductRemoteDataSource {
   Future<List<ProductModel>> getProducts() async {
     try {
       final response = await _dio.get(AppUrls.baseUrl + AppUrls.allProducts);
+      if (response.statusCode == HttpStatus.ok) {
+        final data = response.data as List<dynamic>;
+        final products = data.map((e) => ProductModel.fromJson(e)).toList();
+        return products;
+      } else {
+        throw Exception("Failed to get products list");
+      }
+    } on ServerFailure {
+      rethrow;
+    } catch (e, str) {
+      throw ServerFailure(e.toString(), str);
+    }
+  }
+
+  @override
+  Future<List<ProductModel>> searchProduct(String query) async {
+    try {
+      final response =
+          await _dio.get(AppUrls.baseUrl + AppUrls.searchProduct + query);
       if (response.statusCode == HttpStatus.ok) {
         final data = response.data as List<dynamic>;
         final products = data.map((e) => ProductModel.fromJson(e)).toList();

@@ -6,6 +6,7 @@ import 'package:ihun_food_app/src/features/products/views/bloc/products_bloc.dar
 
 import '../../features/products/domain/repositories/product_repository.dart';
 import '../../features/products/domain/usecases/get_products_usecase.dart';
+import '../../features/products/domain/usecases/search_product_usecase.dart';
 
 /// sl is the service locator
 /// It is used to register the dependencies
@@ -15,11 +16,15 @@ final sl = GetIt.instance;
 /// It is called in the main.dart file
 Future<void> init() async {
   //Blocs live in the presentation layer
-  sl.registerFactory<ProductsBloc>(
-      () => ProductsBloc(getProductsUsecase: sl()));
+  sl.registerFactory<ProductsBloc>(() => ProductsBloc(
+        getProductsUsecase: sl(),
+        searchProductUseCase: sl(),
+      ));
 
   // Usecases live in the domain layer
   sl.registerLazySingleton<GetProductsUsecase>(() => GetProductsUsecase(sl()));
+  sl.registerLazySingleton<SearchProductUseCase>(
+      () => SearchProductUseCase(sl()));
 
   // Repositories live in the data layer
   sl.registerLazySingleton<ProductRepository>(
