@@ -8,11 +8,8 @@ sealed class ProductsState extends Equatable {
   List<Object> get props => [];
 }
 
-/// This state is emitted when the products are requested.
-/// The bloc will then emit a [ProductsLoading] state.
-/// If the products are successfully retrieved, the bloc will emit a [ProductsLoaded] state.
-/// If the products are not successfully retrieved, the bloc will emit a [ProductsError] state.
-/// If the products are empty, the bloc will emit a [ProductsLoadedEmtyList] state.
+/// Get Products
+final class ProductInitalState extends ProductsState {}
 
 final class ProductsLoading extends ProductsState {}
 
@@ -40,14 +37,7 @@ final class ProductsError extends ProductsState {
   List<Object> get props => [message];
 }
 
-/// This state is emitted when the user is searching for a product.
-/// The bloc will emit a [SearchProductLoading] state.
-/// If the products are successfully retrieved,
-/// the bloc will emit a [SearchProductSuccess] state.
-/// If the products are not successfully retrieved,
-/// the bloc will emit a [SearchProductError] state.
-/// If the products are empty, the bloc will emit a [SearchProductEmptyList] state.
-
+/// Search Product
 final class SearchProductSuccess extends ProductsState {
   final List<ProductEntity> products;
 
@@ -68,6 +58,29 @@ final class SearchProductError extends ProductsState {
   const SearchProductError({required this.message});
   @override
   String toString() => 'SearchProductError(message: $message)';
+  @override
+  List<Object> get props => [message];
+}
+
+/// Get Product Detail
+final class ProductDetailLoading extends ProductsState {}
+
+final class ProductDetailLoaded extends ProductsState {
+  final ProductEntity product;
+
+  const ProductDetailLoaded({required this.product});
+  @override
+  String toString() => 'ProductDetailLoaded(product: $product)';
+  @override
+  List<Object> get props => [product];
+}
+
+final class ProductDetailError extends ProductsState {
+  final String message;
+
+  const ProductDetailError({required this.message});
+  @override
+  String toString() => 'ProductDetailError(message: $message)';
   @override
   List<Object> get props => [message];
 }

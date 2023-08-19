@@ -15,7 +15,7 @@ final sl = GetIt.instance;
 /// init is used to register the dependencies
 /// It is called in the main.dart file
 Future<void> init() async {
-  //Blocs live in the presentation layer
+  ///Blocs live in the presentation layer
   sl.registerFactory<ProductsBloc>(() => ProductsBloc(
         getProductsUsecase: sl(),
         searchProductUseCase: sl(),

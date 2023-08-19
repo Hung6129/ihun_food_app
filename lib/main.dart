@@ -10,7 +10,9 @@ import 'src/features/products/views/main_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then(
     (value) => runApp(
       const MyApp(),
     ),
@@ -27,13 +29,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MultiBlocProvider(
         providers: [
           BlocProvider<ProductsBloc>(
-            create: (context) => sl<ProductsBloc>()..add(const GetProducts()),
-          ),
-          BlocProvider<ProductsBloc>(
-            create: (context) => sl<ProductsBloc>()
-              ..add(
-                const SearchingProduct(query: ''),
-              ),
+            create: (context) => sl<ProductsBloc>(),
           ),
         ],
         child: MaterialApp(
