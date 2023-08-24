@@ -6,18 +6,18 @@ import 'package:dio/dio.dart';
 import '../../../../core/app_urls.dart';
 import '../../../../core/errors/failure.dart';
 
-/// ProductRemoteDataSource is an abstract class that defines the methods
-/// that the [ProductRemoteDataSourceImplementation] class must implement.
-/// The [ProductRemoteDataSourceImplementation] class is responsible
+/// ProductSource is an abstract class that defines the methods
+/// that the [ProductSourceImplementation] class must implement.
+/// The [ProductSourceImplementation] class is responsible
 /// for getting the products from the server.
 
-abstract class ProductRemoteDataSource {
+abstract class ProductSource {
   Future<List<ProductModel>> getProducts();
   Future<List<ProductModel>> searchProduct(String query);
 }
 
-class ProductRemoteDataSourceImplementation implements ProductRemoteDataSource {
-  const ProductRemoteDataSourceImplementation(
+class ProductSourceImplementation implements ProductSource {
+  const ProductSourceImplementation(
     this._dio,
   );
   final Dio _dio;
@@ -49,7 +49,7 @@ class ProductRemoteDataSourceImplementation implements ProductRemoteDataSource {
         final products = data.map((e) => ProductModel.fromJson(e)).toList();
         return products;
       } else {
-        throw Exception("Failed to get products list");
+        throw Exception("Failed to search products from product list");
       }
     } on ServerFailure {
       rethrow;

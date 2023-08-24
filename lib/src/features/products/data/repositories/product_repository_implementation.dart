@@ -5,14 +5,14 @@ import 'package:ihun_food_app/src/features/products/data/models/product_model.da
 
 import '../../../../core/errors/failure.dart';
 import '../../domain/repositories/product_repository.dart';
-import '../data_src/product_remote_datasource.dart';
+import '../sources/product_source.dart';
 
 /// ProductRepositoryImplamentation is a class that implements the [ProductRepository] interface.
-/// It uses the [ProductRemoteDataSource] to get the products.
+/// It uses the [ProductSource] to get the products.
 /// returns a [FutureEither] of a list of [ProductModel].
 
 class ProductRepositoryImplementation implements ProductRepository {
-  final ProductRemoteDataSource _remoteDataSource;
+  final ProductSource _remoteDataSource;
 
   ProductRepositoryImplementation(
     this._remoteDataSource,
